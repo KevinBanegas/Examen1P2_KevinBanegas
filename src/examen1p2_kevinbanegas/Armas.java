@@ -7,7 +7,7 @@ public class Armas {
     private Random r = new Random();
     private String nombre;
     private int daño;
-    private int precision;
+    private double precision;
 
     public Armas() {
     }
@@ -34,11 +34,11 @@ public class Armas {
         this.daño = daño;
     }
 
-    public int getPrecision() {
+    public double getPrecision() {
         return precision;
     }
 
-    public void setPrecision(int precision) {
+    public void setPrecision(double precision) {
         this.precision = precision;
     }
 

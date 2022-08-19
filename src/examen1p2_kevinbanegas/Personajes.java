@@ -6,18 +6,19 @@ import java.util.Random;
 public class Personajes {
     protected Random r = new Random();
     protected String nombre;
-    protected int vida;
+    protected double vida;
     protected int escudo;
     protected Armas arma;
-
+    protected double vidatot;
     public Personajes() {
         
     }
 
     public Personajes(String nombre, Armas arma) {
         this.nombre = nombre;
-        this.vida = 50+r.nextInt(100);
-        this.escudo = 50+r.nextInt(100);
+        this.vida = 50+r.nextInt(50);
+        this.escudo = 0+r.nextInt(100);
+        this.vidatot = escudo+vida;
         this.arma = arma;
     }
 
@@ -29,11 +30,11 @@ public class Personajes {
         this.nombre = nombre;
     }
 
-    public int getVida() {
+    public double getVida() {
         return vida;
     }
 
-    public void setVida(int vida) {
+    public void setVida(double vida) {
         this.vida = vida;
     }
 
@@ -53,10 +54,20 @@ public class Personajes {
         this.arma = arma;
     }
 
+    public double getVidatot() {
+        return vidatot;
+    }
+
+    public void setVidatot(double vidatot) {
+        this.vidatot = vidatot;
+    }
+    
     @Override
     public String toString() {
         return "Personajes{" + "nombre=" + nombre + ", vida=" + vida + ", escudo=" + escudo + ", arma=" + arma + '}';
     }
     
-    
+    public void Atacar(Personajes personaje){
+        
+    }
 }

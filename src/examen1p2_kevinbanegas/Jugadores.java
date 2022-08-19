@@ -12,8 +12,8 @@ public class Jugadores {
     public Jugadores(ArrayList<Personajes> personaje) {
         int cant = 2+r.nextInt(10);
         for (int i = 1; i < cant; i++) {
-            nombre+=(char)(97+r.nextInt(122));
-            contraseña+=(char)(97+r.nextInt(122));
+            nombre+=(char)(97+r.nextInt(25));
+            contraseña+=(char)(97+r.nextInt(25));
         }
         id=1+r.nextInt(1000);
         this.personaje=personaje.get(0+r.nextInt(personaje.size()-1));
@@ -59,7 +59,7 @@ public class Jugadores {
 
     @Override
     public String toString() {
-        return "Jugadores{" + "nombre=" + nombre + ", id=" + id + ", contrase\u00f1a=" + contraseña + ", personaje=" + personaje + '}';
+        return "El jugador ["+id+"] " + nombre + " ha ingresado la partida";
     }
     
     
