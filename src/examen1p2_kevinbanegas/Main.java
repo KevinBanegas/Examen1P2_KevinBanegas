@@ -1,7 +1,9 @@
 package examen1p2_kevinbanegas;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 public class Main extends javax.swing.JFrame {
 
@@ -40,6 +42,39 @@ public class Main extends javax.swing.JFrame {
         jugadores.add(0, new Jugadores(this.usuario, this.contra));
     }
 
+    public int finder(int[] ids, int id) {
+        Arrays.sort(ids);
+        int mid = ids.length / 2;
+        System.out.println("MID " + mid);
+        if (ids[ids.length - 1] == id) {
+            return ids[ids.length - 1];
+        } else if (ids[mid] < id) {
+            int length = ids.length - mid;
+            int[] temp = new int[length];
+            for (int i = 0; i < length; i++) {
+                temp[i] = ids[i + length - 1];
+            }
+            System.out.println(Arrays.toString(temp));
+            System.out.println(ids[mid]);
+            Arrays.sort(temp);
+            return finder(temp, id);
+        } else if (ids[mid] > id) {
+            int length = ids.length - mid;
+            int[] temp = new int[length];
+            for (int i = 0; i < length; i++) {
+                temp[i] = ids[length - i - 1];
+            }
+            System.out.println(Arrays.toString(temp));
+            System.out.println(ids[mid]);
+            Arrays.sort(temp);
+            return finder(temp, id);
+        } else {
+            System.out.println(ids[mid]);
+            return ids[mid];
+
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,9 +85,9 @@ public class Main extends javax.swing.JFrame {
         jugadores.add(new Jugadores("Sham", "oidyysnt"));
         jugadores.add(new Jugadores("kimberly", "danoaeysa"));
 
-        armas.add(new Armas("LazarBeam", 30));
-        armas.add(new Armas("AR", 10));
-        armas.add(new Armas("Shawty", 20));
+        armas.add(new Armas("LazarBeam", 30, 80));
+        armas.add(new Armas("AR", 10, 90));
+        armas.add(new Armas("Shawty", 20, 50));
 
         personajes.add(new Fortaleza("PeaceFinder", armas.get(0)));
         personajes.add(new Medico("AntiDeath", armas.get(1)));
@@ -77,16 +112,26 @@ public class Main extends javax.swing.JFrame {
         field_atacar = new javax.swing.JFormattedTextField();
         boton_atacar = new javax.swing.JButton();
         pan_CrearPersonaje = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        label_nombre = new javax.swing.JLabel();
+        label_vida = new javax.swing.JLabel();
+        label_tipo = new javax.swing.JLabel();
+        label_escudo = new javax.swing.JLabel();
+        label_arma = new javax.swing.JLabel();
+        label_nombreArma = new javax.swing.JLabel();
+        label_precision = new javax.swing.JLabel();
+        label_daño = new javax.swing.JLabel();
+        label_ARMA = new javax.swing.JLabel();
+        label_PERSONAJE = new javax.swing.JLabel();
+        cb_armas = new javax.swing.JComboBox<>();
+        text_nombre = new javax.swing.JTextField();
+        textf_vida = new javax.swing.JFormattedTextField();
+        textf_escudo = new javax.swing.JFormattedTextField();
+        text_nombreArma = new javax.swing.JTextField();
+        textf_precision = new javax.swing.JFormattedTextField();
+        textf_daño = new javax.swing.JFormattedTextField();
+        cb_tipo = new javax.swing.JComboBox<>();
+        button_personaje = new javax.swing.JButton();
+        button_arma = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -146,10 +191,10 @@ public class Main extends javax.swing.JFrame {
             pan_SelectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pan_SelectLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(cb_personajes, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cb_personajes, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                 .addGap(69, 69, 69)
                 .addComponent(pan_seleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addGap(107, 107, 107))
         );
 
         panelMain.addTab("tab1", pan_Select);
@@ -211,7 +256,7 @@ public class Main extends javax.swing.JFrame {
         pan_JugarLayout.setVerticalGroup(
             pan_JugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pan_JugarLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addGroup(pan_JugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(label_restantes)
                     .addComponent(botton_start))
@@ -226,25 +271,69 @@ public class Main extends javax.swing.JFrame {
 
         panelMain.addTab("tab2", pan_Jugar);
 
-        jLabel1.setText("Nombre");
+        label_nombre.setText("Nombre");
 
-        jLabel2.setText("Vida");
+        label_vida.setText("Vida");
 
-        jLabel3.setText("Tipo");
+        label_tipo.setText("Tipo");
 
-        jLabel4.setText("jLabel4");
+        label_escudo.setText("Escudo");
 
-        jLabel5.setText("jLabel5");
+        label_arma.setText("Arma");
 
-        jLabel6.setText("jLabel6");
+        label_nombreArma.setText("Nombre");
 
-        jLabel7.setText("jLabel7");
+        label_precision.setText("Precision");
 
-        jLabel8.setText("jLabel8");
+        label_daño.setText("Daño");
 
-        jLabel9.setText("jLabel9");
+        label_ARMA.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        label_ARMA.setText("CREAR ARMA");
 
-        jLabel10.setText("jLabel10");
+        label_PERSONAJE.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        label_PERSONAJE.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_PERSONAJE.setText("CREAR PERSONAJE");
+
+        cb_armas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cb_armas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_armasActionPerformed(evt);
+            }
+        });
+
+        textf_vida.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+
+        textf_escudo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+
+        textf_precision.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        textf_precision.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textf_precisionActionPerformed(evt);
+            }
+        });
+
+        textf_daño.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+
+        cb_tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        button_personaje.setText("Crear Personaje");
+        button_personaje.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                button_personajeMouseClicked(evt);
+            }
+        });
+
+        button_arma.setText("Crear Arma");
+        button_arma.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                button_armaMouseClicked(evt);
+            }
+        });
+        button_arma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_armaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pan_CrearPersonajeLayout = new javax.swing.GroupLayout(pan_CrearPersonaje);
         pan_CrearPersonaje.setLayout(pan_CrearPersonajeLayout);
@@ -253,47 +342,84 @@ public class Main extends javax.swing.JFrame {
             .addGroup(pan_CrearPersonajeLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_precision)
+                    .addComponent(label_ARMA)
+                    .addComponent(label_PERSONAJE)
                     .addGroup(pan_CrearPersonajeLayout.createSequentialGroup()
+                        .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(textf_precision, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label_nombreArma, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label_escudo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(label_nombre, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(text_nombre, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textf_escudo, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(text_nombreArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
+                        .addGap(44, 44, 44)
                         .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel1))
-                        .addGap(169, 169, 169)
-                        .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel5)
                             .addGroup(pan_CrearPersonajeLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(154, 154, 154)
-                                .addComponent(jLabel3))))
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
-                .addContainerGap(243, Short.MAX_VALUE))
+                                .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(label_arma)
+                                    .addComponent(label_daño))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(pan_CrearPersonajeLayout.createSequentialGroup()
+                                .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(textf_daño)
+                                    .addComponent(cb_armas, javax.swing.GroupLayout.Alignment.LEADING, 0, 158, Short.MAX_VALUE)
+                                    .addComponent(label_vida, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textf_vida, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pan_CrearPersonajeLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(label_tipo)
+                                            .addComponent(cb_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pan_CrearPersonajeLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                                        .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(button_arma)
+                                            .addComponent(button_personaje))))))))
+                .addGap(60, 60, 60))
         );
         pan_CrearPersonajeLayout.setVerticalGroup(
             pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pan_CrearPersonajeLayout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jLabel10)
+                .addComponent(label_PERSONAJE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
-                .addGap(63, 63, 63)
+                    .addComponent(label_vida)
+                    .addComponent(label_nombre)
+                    .addComponent(label_tipo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addGap(56, 56, 56)
-                .addComponent(jLabel9)
+                    .addComponent(text_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textf_vida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cb_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_escudo)
+                    .addComponent(label_arma))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cb_armas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textf_escudo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button_personaje))
+                .addGap(25, 25, 25)
+                .addComponent(label_ARMA)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_daño)
+                    .addComponent(label_nombreArma))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(button_arma)
+                    .addComponent(text_nombreArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textf_daño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(pan_CrearPersonajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(40, 40, 40))
+                .addComponent(label_precision)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textf_precision, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         panelMain.addTab("tab3", pan_CrearPersonaje);
@@ -311,8 +437,8 @@ public class Main extends javax.swing.JFrame {
             bg_whiteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bg_whiteLayout.createSequentialGroup()
                 .addGap(59, 59, 59)
-                .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -347,12 +473,25 @@ public class Main extends javax.swing.JFrame {
             }
             cb_personajes.setModel(m);
         }
+        if (panelMain.getSelectedIndex() == 2) {
+            DefaultComboBoxModel tipo = new DefaultComboBoxModel();
+            tipo.addElement("Fortaleza");
+            tipo.addElement("Medico");
+            tipo.addElement("Rastreador");
+            cb_tipo.setModel(tipo);
+
+            DefaultComboBoxModel tipoArmas = new DefaultComboBoxModel();
+            for (Armas arma : armas) {
+                tipoArmas.addElement(arma);
+            }
+            cb_armas.setModel(tipoArmas);
+
+        }
     }//GEN-LAST:event_panelMainStateChanged
 
     private void pan_seleccionarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pan_seleccionarMouseClicked
         jugadores.get(0).setPersonaje((Personajes) cb_personajes.getSelectedItem());
         panelMain.setSelectedIndex(1);
-
     }//GEN-LAST:event_pan_seleccionarMouseClicked
 
     private void botton_startStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_botton_startStateChanged
@@ -377,8 +516,48 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_boton_atacarActionPerformed
 
     private void boton_atacarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boton_atacarMouseClicked
+        ArrayList<Integer> ids = new ArrayList();
+        for (Jugadores jugadore : jugadores) {
+            ids.add(jugadore.getId());
+        }
         
+        finder((ids.toArray()),1);
     }//GEN-LAST:event_boton_atacarMouseClicked
+
+    private void cb_armasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_armasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_armasActionPerformed
+
+    private void textf_precisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textf_precisionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textf_precisionActionPerformed
+
+    private void button_armaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_armaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_button_armaActionPerformed
+
+    private void button_personajeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button_personajeMouseClicked
+        if (cb_tipo.getSelectedIndex() == 0) {
+            personajes.add(new Fortaleza(text_nombre.getText(), Integer.parseInt(textf_vida.getText()), Integer.parseInt(textf_escudo.getText()), armas.get(cb_armas.getSelectedIndex())));
+        } else if (cb_tipo.getSelectedIndex() == 1) {
+            personajes.add(new Medico(text_nombre.getText(), Integer.parseInt(textf_vida.getText()), Integer.parseInt(textf_escudo.getText()), armas.get(cb_armas.getSelectedIndex())));
+        } else if (cb_tipo.getSelectedIndex() == 2) {
+            personajes.add(new Rastraeador(text_nombre.getText(), Integer.parseInt(textf_vida.getText()), Integer.parseInt(textf_escudo.getText()), armas.get(cb_armas.getSelectedIndex())));
+        }
+        JOptionPane.showMessageDialog(this, "Personaje Agregado Exitosamente");
+        text_nombre.setText("");
+        textf_vida.setText("");
+        textf_escudo.setText("");
+
+    }//GEN-LAST:event_button_personajeMouseClicked
+
+    private void button_armaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_button_armaMouseClicked
+        armas.add(new Armas(text_nombreArma.getText(), Integer.parseInt(textf_daño.getText()), Integer.parseInt(textf_precision.getText())));
+        JOptionPane.showMessageDialog(this, "Arma Agregado Exitosamente");
+        text_nombreArma.setText("");
+        textf_daño.setText("");
+        textf_precision.setText("");
+    }//GEN-LAST:event_button_armaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -419,26 +598,36 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel bg_white;
     private javax.swing.JButton boton_atacar;
     private javax.swing.JButton botton_start;
+    private javax.swing.JButton button_arma;
+    private javax.swing.JButton button_personaje;
+    private javax.swing.JComboBox<String> cb_armas;
     private javax.swing.JComboBox<String> cb_personajes;
+    private javax.swing.JComboBox<String> cb_tipo;
     private javax.swing.JFormattedTextField field_atacar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel label_ARMA;
+    private javax.swing.JLabel label_PERSONAJE;
+    private javax.swing.JLabel label_arma;
+    private javax.swing.JLabel label_daño;
+    private javax.swing.JLabel label_escudo;
+    private javax.swing.JLabel label_nombre;
+    private javax.swing.JLabel label_nombreArma;
+    private javax.swing.JLabel label_precision;
     private javax.swing.JLabel label_restantes;
     private javax.swing.JLabel label_seleccionar;
+    private javax.swing.JLabel label_tipo;
+    private javax.swing.JLabel label_vida;
     private javax.swing.JPanel pan_CrearPersonaje;
     private javax.swing.JPanel pan_Jugar;
     private javax.swing.JPanel pan_Select;
     private javax.swing.JPanel pan_seleccionar;
     private javax.swing.JTabbedPane panelMain;
     private javax.swing.JScrollPane pantalla;
+    private javax.swing.JTextField text_nombre;
+    private javax.swing.JTextField text_nombreArma;
+    private javax.swing.JFormattedTextField textf_daño;
+    private javax.swing.JFormattedTextField textf_escudo;
+    private javax.swing.JFormattedTextField textf_precision;
+    private javax.swing.JFormattedTextField textf_vida;
     private javax.swing.JTextArea texto_partida;
     // End of variables declaration//GEN-END:variables
 }

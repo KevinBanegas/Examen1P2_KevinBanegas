@@ -2,8 +2,10 @@ package examen1p2_kevinbanegas;
 
 public class Rastraeador extends Personajes {
 
-    public Rastraeador() {
+    public Rastraeador(String nombre, double vida, int escudo, Armas arma) {
+        super(nombre, vida, escudo, arma);
     }
+
 
     public Rastraeador(String nombre, Armas arma) {
         super(nombre, arma);

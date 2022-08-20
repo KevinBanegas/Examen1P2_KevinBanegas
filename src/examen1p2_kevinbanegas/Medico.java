@@ -2,8 +2,11 @@ package examen1p2_kevinbanegas;
 
 public class Medico extends Personajes {
 
-    public Medico() {
+    public Medico(String nombre, double vida, int escudo, Armas arma) {
+        super(nombre, vida, escudo, arma);
     }
+
+
 
     public Medico(String nombre, Armas arma) {
         super(nombre, arma);

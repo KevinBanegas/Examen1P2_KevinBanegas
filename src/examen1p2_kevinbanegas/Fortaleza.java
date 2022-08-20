@@ -3,8 +3,11 @@ package examen1p2_kevinbanegas;
 
 public class Fortaleza extends Personajes{
 
-    public Fortaleza() {
+    public Fortaleza(String nombre, double vida, int escudo, Armas arma) {
+        super(nombre, vida, escudo, arma);
     }
+
+
 
     public Fortaleza(String nombre, Armas arma) {
         super(nombre, arma);

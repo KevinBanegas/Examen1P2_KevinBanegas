@@ -2,23 +2,30 @@ package examen1p2_kevinbanegas;
 
 import java.util.Random;
 
-
 public class Personajes {
+
     protected Random r = new Random();
     protected String nombre;
     protected double vida;
     protected int escudo;
     protected Armas arma;
     protected double vidatot;
-    public Personajes() {
-        
+
+    public Personajes(String nombre, double vida, int escudo, Armas arma) {
+        this.nombre = nombre;
+        this.vida = vida;
+        this.escudo = escudo;
+        this.arma = arma;
+        this.vidatot = vida+escudo;
     }
+
+
 
     public Personajes(String nombre, Armas arma) {
         this.nombre = nombre;
-        this.vida = 50+r.nextInt(50);
-        this.escudo = 0+r.nextInt(100);
-        this.vidatot = escudo+vida;
+        this.vida = 50 + r.nextInt(50);
+        this.escudo = 0 + r.nextInt(100);
+        this.vidatot = escudo + vida;
         this.arma = arma;
     }
 
@@ -35,7 +42,12 @@ public class Personajes {
     }
 
     public void setVida(double vida) {
-        this.vida = vida;
+        if (vida <= 100 && vida >= 50) {
+            this.vida = vida;
+        } else {
+            this.vida = 50;
+        }
+
     }
 
     public int getEscudo() {
@@ -43,7 +55,11 @@ public class Personajes {
     }
 
     public void setEscudo(int escudo) {
-        this.escudo = escudo;
+        if (escudo <= 100 && escudo >= 0) {
+            this.escudo = escudo;
+        }else{
+            this.escudo = 0;
+        }
     }
 
     public Armas getArma() {
@@ -61,13 +77,13 @@ public class Personajes {
     public void setVidatot(double vidatot) {
         this.vidatot = vidatot;
     }
-    
+
     @Override
     public String toString() {
         return "Personajes{" + "nombre=" + nombre + ", vida=" + vida + ", escudo=" + escudo + ", arma=" + arma + '}';
     }
-    
-    public void Atacar(Personajes personaje){
-        
+
+    public void Atacar(Personajes personaje) {
+
     }
 }

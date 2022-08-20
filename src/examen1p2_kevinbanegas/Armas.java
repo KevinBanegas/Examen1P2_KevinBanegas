@@ -2,8 +2,8 @@ package examen1p2_kevinbanegas;
 
 import java.util.Random;
 
-
 public class Armas {
+
     private Random r = new Random();
     private String nombre;
     private int daño;
@@ -12,10 +12,10 @@ public class Armas {
     public Armas() {
     }
 
-    public Armas(String nombre, int daño) {
+    public Armas(String nombre, int daño, int precision) {
         this.nombre = nombre;
         this.daño = daño;
-        this.precision = 0+r.nextInt(100);
+        this.precision = precision;
     }
 
     public String getNombre() {
@@ -35,17 +35,21 @@ public class Armas {
     }
 
     public double getPrecision() {
+
         return precision;
     }
 
     public void setPrecision(double precision) {
-        this.precision = precision;
+        if (precision <= 100 && precision >= 0) {
+            this.precision = precision;
+        } else {
+            this.precision = 10;
+        }
     }
 
     @Override
     public String toString() {
-        return "Armas{" + "nombre=" + nombre + ", da\u00f1o=" + daño + ", precision=" + precision + '}';
+        return nombre;
     }
-    
-    
+
 }
