@@ -16,7 +16,7 @@ public class Jugadores {
             contraseña+=(char)(97+r.nextInt(25));
         }
         id=1+r.nextInt(1000);
-        this.personaje=personaje.get(0+r.nextInt(personaje.size()-1));
+        this.personaje=personaje.get(0+r.nextInt(2));
     }
 
     public Jugadores(String nombre, String contraseña) {

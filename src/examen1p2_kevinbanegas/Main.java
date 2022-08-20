@@ -2,6 +2,10 @@ package examen1p2_kevinbanegas;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
@@ -13,6 +17,9 @@ public class Main extends javax.swing.JFrame {
     private ArrayList<Jugadores> jugadores = new ArrayList();
     private ArrayList<Personajes> personajes = new ArrayList();
     private ArrayList<Armas> armas = new ArrayList();
+    private Random r = new Random();
+    private Date d1;
+    private Date d2;
 
     public String getUsuario() {
         return usuario;
@@ -71,7 +78,6 @@ public class Main extends javax.swing.JFrame {
         } else {
             System.out.println(ids[mid]);
             return ids[mid];
-
         }
     }
 
@@ -236,22 +242,21 @@ public class Main extends javax.swing.JFrame {
         pan_JugarLayout.setHorizontalGroup(
             pan_JugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pan_JugarLayout.createSequentialGroup()
-                .addGroup(pan_JugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pan_JugarLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(pantalla))
-                    .addGroup(pan_JugarLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(botton_start)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(label_restantes)))
+                .addContainerGap()
+                .addComponent(pantalla)
                 .addContainerGap())
             .addGroup(pan_JugarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(field_atacar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(boton_atacar)
-                .addContainerGap(452, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pan_JugarLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(botton_start)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 410, Short.MAX_VALUE)
+                .addComponent(label_restantes)
+                .addGap(58, 58, 58))
         );
         pan_JugarLayout.setVerticalGroup(
             pan_JugarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -508,7 +513,7 @@ public class Main extends javax.swing.JFrame {
             texto_partida.append(jugadore.toString() + "\n");
 
         }
-
+        d1 = new Date();
     }//GEN-LAST:event_botton_startMouseClicked
 
     private void boton_atacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_atacarActionPerformed
@@ -516,12 +521,46 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_boton_atacarActionPerformed
 
     private void boton_atacarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boton_atacarMouseClicked
-        ArrayList<Integer> ids = new ArrayList();
-        for (Jugadores jugadore : jugadores) {
-            ids.add(jugadore.getId());
+        if (field_atacar.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El jugador esta muerto o el ID no existe");
+        } else {
+            for (Jugadores jugadore : jugadores) {
+                if (jugadore.getId() == Integer.parseInt(field_atacar.getText())) {
+                    jugadores.get(0).getPersonaje().Atacar(jugadore.getPersonaje());
+                    texto_partida.append(jugadores.get(0).getNombre() + "--->" + jugadore.getNombre() + "\n");
+                    if (jugadore.getPersonaje().getVidatot() < 0) {
+                        texto_partida.append(jugadores.get(0).getNombre() +" "+jugadores.get(0).getId()+" "+ " MATO A " + jugadore.getNombre() + " " + jugadore.getId() + " " + "\n");
+                        jugadores.remove(jugadore);
+                    }
+                }
+            }
+            int random1 = 1 + r.nextInt(jugadores.size() - 1);
+            int random2 = r.nextInt(jugadores.size());
+            for (int i = 0; i < 5; i++) {
+                while (random1 == random2) {
+                    random1 = 1+r.nextInt(jugadores.size());
+                    random2 = r.nextInt(jugadores.size());
+                }
+                random1 = 1+r.nextInt(jugadores.size());
+                random2 = r.nextInt(jugadores.size());
+                jugadores.get(random1).getPersonaje().Atacar(jugadores.get(random2).getPersonaje());
+                texto_partida.append(jugadores.get(random1).getNombre() + " " + jugadores.get(random1).getId() + " " + " ---> " + jugadores.get(random2).getNombre() + " " + jugadores.get(random2).getId() + " " + "\n");
+                if (jugadores.get(random2).getPersonaje().getVidatot() <= 0) {
+                    texto_partida.append(jugadores.get(random1).getNombre() + " " + jugadores.get(random1).getId() + " " + " MATO A " + jugadores.get(random2).getNombre() + " " + jugadores.get(random2).getId() + "\n");
+                    jugadores.remove(jugadores.get(random2));
+                }
+                label_restantes.setText("Restantes: "+jugadores.size());
+            }
+            if (jugadores.size() == 1) {
+                texto_partida.append(jugadores.get(0) + "HA GANADO\n");
+                d2 = new Date();
+                long tiempo = d2.getTime()-d1.getTime();
+                long seconds = TimeUnit.SECONDS.toSeconds(tiempo);
+                texto_partida.append("La partida duro: "+seconds);
+            }
+
         }
-        
-        finder((ids.toArray()),1);
+
     }//GEN-LAST:event_boton_atacarMouseClicked
 
     private void cb_armasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_armasActionPerformed
