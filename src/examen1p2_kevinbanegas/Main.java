@@ -507,7 +507,11 @@ public class Main extends javax.swing.JFrame {
         jugadores.get(0).setPersonaje((Personajes) cb_personajes.getSelectedItem());
         for (int i = 4; i < 60; i++) {
             jugadores.add(new Jugadores(personajes));
-
+            for (int j = 0; j < jugadores.size(); j++) {
+                if (jugadores.get(j).getId() == jugadores.get(i).getId()) {
+                    jugadores.get(i).setId(0 + r.nextInt(1000));
+                }
+            }
         }
         for (Jugadores jugadore : jugadores) {
             texto_partida.append(jugadore.toString() + "\n");
@@ -521,15 +525,24 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_boton_atacarActionPerformed
 
     private void boton_atacarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_boton_atacarMouseClicked
+        int cont = 0;
+        for (Jugadores jugadore : jugadores) {
+            if (jugadore.getNombre()==(usuario)) {
+                cont = 1;
+            }
+        }
+
         if (field_atacar.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "El jugador esta muerto o el ID no existe");
+        } else if (cont == 0) {
+            JOptionPane.showMessageDialog(this, "ESTAS MUERTO");
         } else {
             for (Jugadores jugadore : jugadores) {
                 if (jugadore.getId() == Integer.parseInt(field_atacar.getText())) {
                     jugadores.get(0).getPersonaje().Atacar(jugadore.getPersonaje());
                     texto_partida.append(jugadores.get(0).getNombre() + "--->" + jugadore.getNombre() + "\n");
                     if (jugadore.getPersonaje().getVidatot() < 0) {
-                        texto_partida.append(jugadores.get(0).getNombre() +" "+jugadores.get(0).getId()+" "+ " MATO A " + jugadore.getNombre() + " " + jugadore.getId() + " " + "\n");
+                        texto_partida.append(jugadores.get(0).getNombre() + " " + jugadores.get(0).getId() + " " + " MATO A " + jugadore.getNombre() + " " + jugadore.getId() + " " + "\n");
                         jugadores.remove(jugadore);
                     }
                 }
@@ -538,10 +551,10 @@ public class Main extends javax.swing.JFrame {
             int random2 = r.nextInt(jugadores.size());
             for (int i = 0; i < 5; i++) {
                 while (random1 == random2) {
-                    random1 = 1+r.nextInt(jugadores.size());
+                    random1 = 1 + r.nextInt(jugadores.size());
                     random2 = r.nextInt(jugadores.size());
                 }
-                random1 = 1+r.nextInt(jugadores.size());
+                random1 = 1 + r.nextInt(jugadores.size());
                 random2 = r.nextInt(jugadores.size());
                 jugadores.get(random1).getPersonaje().Atacar(jugadores.get(random2).getPersonaje());
                 texto_partida.append(jugadores.get(random1).getNombre() + " " + jugadores.get(random1).getId() + " " + " ---> " + jugadores.get(random2).getNombre() + " " + jugadores.get(random2).getId() + " " + "\n");
@@ -549,14 +562,14 @@ public class Main extends javax.swing.JFrame {
                     texto_partida.append(jugadores.get(random1).getNombre() + " " + jugadores.get(random1).getId() + " " + " MATO A " + jugadores.get(random2).getNombre() + " " + jugadores.get(random2).getId() + "\n");
                     jugadores.remove(jugadores.get(random2));
                 }
-                label_restantes.setText("Restantes: "+jugadores.size());
+                label_restantes.setText("Restantes: " + jugadores.size());
             }
             if (jugadores.size() == 1) {
                 texto_partida.append(jugadores.get(0) + "HA GANADO\n");
                 d2 = new Date();
-                long tiempo = d2.getTime()-d1.getTime();
+                long tiempo = d2.getTime() - d1.getTime();
                 long seconds = TimeUnit.SECONDS.toSeconds(tiempo);
-                texto_partida.append("La partida duro: "+seconds);
+                texto_partida.append("La partida duro: " + seconds);
             }
 
         }
